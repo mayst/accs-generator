@@ -4,28 +4,34 @@ import SidebarContext from '@/store/SidebarContext';
 import ContactForm from './ContactForm';
 
 export const drawerWidth = 240;
+export const xsDrawerWidth = 150;
 
-function Index() {
+const styles = (theme) => ({
+    width: drawerWidth,
+    flexShrink: 0,
+    '& .MuiDrawer-paper': {
+        width: 'inherit',
+        boxSizing: 'border-box',
+        padding: theme.spacing(2),
+    },
+    [theme.breakpoints.down('sm')]: {
+        width: xsDrawerWidth,
+    },
+});
+
+function Sidebar() {
     const { open } = useContext(SidebarContext);
 
     return (
         <Drawer
-            sx={{
-                width: drawerWidth,
-                flexShrink: 0,
-                '& .MuiDrawer-paper': {
-                    width: 'inherit',
-                    boxSizing: 'border-box',
-                    p: 2,
-                },
-            }}
+            sx={styles}
             variant="persistent"
             anchor="left"
             open={open}
         >
             <ContactForm />
         </Drawer>
-    )
+    );
 }
 
-export default Index;
+export default Sidebar;

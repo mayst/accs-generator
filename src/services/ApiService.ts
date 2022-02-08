@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 
 class ApiService {
     axiosInstance = axios.create({ timeout: 10000 });
@@ -7,7 +7,7 @@ class ApiService {
         this.errorInterceptor();
     }
 
-    async get<T>(reqPath: string, params: any = {}) {
+    async get<T>(reqPath: string, params: AxiosRequestConfig = {}) {
         const { data } = await this.axiosInstance.request<T>({ url: reqPath, ...params });
         return data;
     }

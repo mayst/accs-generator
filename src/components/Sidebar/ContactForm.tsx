@@ -1,29 +1,20 @@
-import { useCallback, useContext, useState } from 'react';
-import debounce from 'lodash/debounce';
+import { useContext, useState } from 'react';
 import { Avatar, Button, CircularProgress, FormControl, TextField } from '@mui/material';
 import { ContactsContext, DraftContext } from '@/store';
 import ContactService from '@/services/ContactService';
-import useLoader from "@/composables/useLoader";
+import useLoader from '@/hooks/useLoader';
+import useChangeAvatar from '@/hooks/useChangeAvatar';
 
 function ContactForm() {
     const { appendContact } = useContext(ContactsContext);
     const { draft, changeDraft } = useContext(DraftContext);
-    const getAvatar = (nickname: string) => ContactService.generateAvatar(nickname);
+
     const makeContact = (nickname: string) => ContactService.generateContact(nickname);
 
     const [loading, setLoading] = useState(false);
     const [generating, setGenerating] = useState(false);
 
-    const changeAvatar = useCallback(debounce(async (nickname: string) => {
-        if (nickname.length) {
-            const avatar = getAvatar(nickname);
-            changeDraft({ avatar });
-        } else {
-            changeDraft({ avatar: '' });
-        }
-
-        setLoading(false);
-    }, 2000), []);
+    const changeAvatar = useChangeAvatar(changeDraft, setLoading);
 
     const onContactChange = (event: any) => {
         setLoading(true);

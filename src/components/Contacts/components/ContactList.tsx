@@ -23,8 +23,12 @@ function ContactList() {
     return (
         <Box>
             {
-                contacts.map((contact: any, i: number) => (
-                    <ContactListItem contact={contact} key={i} onClick={() => openModal(i)} />
+                contacts.map((contact, i) => (
+                    <ContactListItem
+                        contact={contact}
+                        key={`${contact.firstName}-${contact.lastName}`}
+                        onClick={() => openModal(i)}
+                    />
                 ))
             }
 
