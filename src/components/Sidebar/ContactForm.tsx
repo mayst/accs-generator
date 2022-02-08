@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import {useCallback, useContext, useState} from 'react';
 import { Avatar, Button, CircularProgress, FormControl, TextField } from '@mui/material';
 import { ContactsContext, DraftContext } from '@/store';
 import ContactService from '@/services/ContactService';
@@ -27,7 +27,7 @@ function ContactForm() {
 
     const makeRequest = useLoader(setGenerating);
 
-    const addContact = () => makeRequest(async () => {
+    const addContact = useCallback(() => makeRequest(async () => {
         const generatedContact = await makeContact(draft.nickname);
         const newContact = {
             ...draft,
@@ -36,7 +36,7 @@ function ContactForm() {
 
         changeDraft({ nickname: '', avatar: '' });
         appendContact(newContact);
-    });
+    }), [draft]);
 
     const avatarSize = 96;
 
